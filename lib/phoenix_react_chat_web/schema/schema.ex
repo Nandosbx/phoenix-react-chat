@@ -36,8 +36,6 @@ defmodule PhoenixReactChatWeb.Schema do
       end
     end
 
-
-
     mutation do
       @desc "Create User"
       field :register_user, :boolean do
@@ -65,7 +63,7 @@ defmodule PhoenixReactChatWeb.Schema do
       end
 
       @desc "Delete Message"
-      field :delete_message, :boolean do
+      field :delete_message, :deleted_message_type do
         arg(:input, non_null(:delete_message_input))
         resolve(&Resolvers.MessageResolver.delete_message/3)
       end
@@ -94,6 +92,27 @@ defmodule PhoenixReactChatWeb.Schema do
           IO.puts("New message =>")
           IO.inspect(new_message)
           {:ok, new_message}
+        end)
+      end
+
+      @desc "Deleted Message"
+      field :deleted_message, :deleted_message_type do
+        arg(:input, non_null(:deleted_message_input))
+
+        config(fn %{input: input}, _ ->
+
+          {:ok, topic: "#{input.room_id}:#{Topics.deleted_message()}"}
+        end)
+
+        trigger(:delete_message,
+          topic: fn %{room_id: room_id} ->
+          "#{room_id}:#{Topics.deleted_message()}"
+          end
+        )
+
+        resolve(fn payload, _, _ ->
+
+          {:ok, payload}
         end)
       end
     end

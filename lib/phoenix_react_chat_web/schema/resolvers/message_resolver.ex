@@ -7,18 +7,21 @@ defmodule PhoenixReactChatWeb.Schema.Resolvers.MessageResolver do
   alias PhoenixReactChatWeb.Constants
 
   def delete_message(_,%{input: input}, %{context: context}) do
-    case Message.delete_message_by_id(input.message_id, context.current_user.id) do
+    case Message.delete_message_by_id(input.message_id, input.room_id, context.current_user.id) do
       {1, _} ->
-        {:ok, true}
+        {:ok, %{message_id: input.message_id, room_id: input.room_id}}
         {0, _} ->
           {:error, Constants.not_found()}
           _ -> {:error, Constants.internal_server_error()}
    end
   end
 
-  def get_all_messages(_,%{input: input},%{context: _context}) do
-    messages = Message.list_messages(input.room_id)
-    {:ok, messages}
+  def get_all_messages(_,%{input: %{room_id: room_id, cursor: cursor}},%{context: _context}) do
+    {:ok, Message.list_messages(room_id, cursor)}
+  end
+
+  def get_all_messages(_,%{input: %{room_id: room_id}},%{context: _context}) do
+    {:ok, Message.list_messages(room_id)}
   end
 
   def create_message(_, %{input: input}, %{context: context}) do
