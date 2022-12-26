@@ -34,7 +34,6 @@ defmodule PhoenixReactChatWeb.Schema do
 
 
     mutation do
-
       @desc "Create User"
       field :register_user, :boolean do
         arg(:input, non_null(:registration_input_type))
@@ -73,16 +72,22 @@ defmodule PhoenixReactChatWeb.Schema do
         arg(:input, non_null(:delete_room_input))
 
         config(fn %{input: input}, _ ->
+          IO.puts("New input => ")
+          IO.inspect(input)
           {:ok, topic: "#{input.room_id}:#{Topics.new_message()}"}
         end)
 
         trigger(:create_message,
           topic: fn new_message ->
+            IO.puts("New message =>")
+            IO.inspect(new_message)
             "#{new_message.room_id}:#{Topics.new_message()}"
           end
         )
 
         resolve(fn new_message, _, _ ->
+          IO.puts("New message =>")
+          IO.inspect(new_message)
           {:ok, new_message}
         end)
       end
