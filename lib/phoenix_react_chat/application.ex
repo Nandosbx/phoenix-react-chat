@@ -15,9 +15,10 @@ defmodule PhoenixReactChat.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: PhoenixReactChat.PubSub},
       # Start the Endpoint (http/https)
-      PhoenixReactChatWeb.Endpoint
+      PhoenixReactChatWeb.Endpoint,
       # Start a worker by calling: PhoenixReactChat.Worker.start_link(arg)
       # {PhoenixReactChat.Worker, arg}
+      {Absinthe.Subscription, PhoenixReactChatWeb.Endpoint}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

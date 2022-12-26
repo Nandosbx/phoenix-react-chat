@@ -31,7 +31,7 @@ defmodule PhoenixReactChatWeb.Router do
 
     get "/", Absinthe.Plug.GraphiQL,
       schema: PhoenixReactChatWeb.Schema,
-      interface: :playground
+      interface: :playground, socket: PhoenixReactChatWeb.UserSocket
 
     post "/", Absinthe.Plug, schema: PhoenixReactChatWeb.Schema
   end
