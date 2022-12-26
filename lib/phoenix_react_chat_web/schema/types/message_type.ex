@@ -22,5 +22,6 @@ defmodule PhoenixReactChatWeb.Schema.Types.MessageType do
 
   input_object :delete_message_input do
     field :message_id, non_null(:id)
+    field :room_id, non_null(:id)
   end
 end

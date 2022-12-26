@@ -29,6 +29,11 @@ defmodule PhoenixReactChatWeb.Schema do
         arg(:input, non_null(:list_messages_type))
         resolve(&Resolvers.MessageResolver.get_all_messages/3)
       end
+
+      @desc "Get me"
+      field :get_me, :user_type do
+        resolve(&Resolvers.UserResolver.get_me/3)
+      end
     end
 
 
@@ -72,14 +77,14 @@ defmodule PhoenixReactChatWeb.Schema do
         arg(:input, non_null(:delete_room_input))
 
         config(fn %{input: input}, _ ->
-          IO.puts("New input => ")
+          IO.puts("CONFIG NEW input => ")
           IO.inspect(input)
           {:ok, topic: "#{input.room_id}:#{Topics.new_message()}"}
         end)
 
         trigger(:create_message,
           topic: fn new_message ->
-            IO.puts("New message =>")
+            IO.puts("New message => ")
             IO.inspect(new_message)
             "#{new_message.room_id}:#{Topics.new_message()}"
           end

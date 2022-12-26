@@ -29,9 +29,15 @@ defmodule PhoenixReactChatWeb.Router do
   scope "/api/graphql" do
     pipe_through :graphql
 
-    get "/", Absinthe.Plug.GraphiQL,
+    # get "/", Absinthe.Plug.GraphiQL,
+    #   schema: PhoenixReactChatWeb.Schema,
+    #   interface: :playground, socket: PhoenixReactChatWeb.UserSocket
+
+    forward "/",
+      Absinthe.Plug.GraphiQL,
       schema: PhoenixReactChatWeb.Schema,
-      interface: :playground, socket: PhoenixReactChatWeb.UserSocket
+      interface: :playground,
+      socket: PhoenixReactChatWeb.UserSocket
 
     post "/", Absinthe.Plug, schema: PhoenixReactChatWeb.Schema
   end

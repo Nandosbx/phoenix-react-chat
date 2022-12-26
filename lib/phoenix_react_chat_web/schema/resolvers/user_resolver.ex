@@ -9,6 +9,10 @@ defmodule PhoenixReactChatWeb.Schema.Resolvers.UserResolver do
     {:ok, users}
   end
 
+  def get_me(_,_, %{context: %{current_user: current_user}}) do
+    {:ok, current_user}
+  end
+
   def register_user(_, %{input: input}, _) do
     case Auth.create_user(input) do
       {:ok, _} ->
