@@ -49,10 +49,8 @@ defmodule PhoenixReactChat.MixProject do
       {:absinthe, "~> 1.7.0"},
       {:absinthe_phoenix, "~> 2.0.0"},
       {:cors_plug, "~> 3.0"},
-      {:pbkdf2_elixir, "~> 2.0"}
-      # {:argon2_elixir, "~> 3.0"}
-      # {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      # {:bcrypt_elixir, "~> 2.0"}
+      {:pbkdf2_elixir, "~> 2.0"},
+      {:argon2_elixir, "~> 3.0"},
       # {:safeurl, "~> 0.3.0"},
       # {:httpoison, "~> 1.8"},
       # {:nimble_totp, "~> 0.2.0"},

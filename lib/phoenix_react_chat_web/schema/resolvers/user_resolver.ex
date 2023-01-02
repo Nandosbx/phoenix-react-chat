@@ -13,17 +13,17 @@ defmodule PhoenixReactChatWeb.Schema.Resolvers.UserResolver do
     {:ok, current_user}
   end
 
-  def register_user(_, %{input: input}, _) do
-    case Auth.create_user(input) do
-      {:ok, _} ->
-        {:ok, true}
+  # def register_user(_, %{input: input}, _) do
+  #   case Auth.create_user(input) do
+  #     {:ok, _} ->
+  #       {:ok, true}
 
-      {:error, %Ecto.Changeset{}= changeset} ->
-        errors = Utils.format_changeset_errors(changeset)
-        {:error, errors}
+  #     {:error, %Ecto.Changeset{}= changeset} ->
+  #       errors = Utils.format_changeset_errors(changeset)
+  #       {:error, errors}
 
-      {_, _} ->
-        {:error, Constants.internal_server_error()}
-    end
-  end
+  #     {_, _} ->
+  #       {:error, Constants.internal_server_error()}
+  #   end
+  # end
 end

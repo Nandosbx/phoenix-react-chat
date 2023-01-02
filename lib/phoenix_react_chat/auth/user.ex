@@ -44,7 +44,7 @@ defmodule PhoenixReactChat.Auth.User do
   defp hash_password(%Ecto.Changeset{} = changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: password}} ->
-        new_changeset = put_change(changeset, :password, Pbkdf2.hash_pwd_salt(password))
+        new_changeset = put_change(changeset, :password, Argon2.hash_pwd_salt(password))
         new_changeset
 
       _ ->

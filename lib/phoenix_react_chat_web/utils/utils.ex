@@ -7,6 +7,7 @@ defmodule PhoenixReactChatWeb.Utils do
           String.replace(acc, "%{#{key}}", to_string(value))
         end)
       end)
+
       formatted_errors = Enum.map(errors, fn {key, value} ->
         formatted_error = "#{key} #{value}"
         formatted_error

@@ -17,19 +17,17 @@ defmodule PhoenixReactChatWeb.AuthController do
 
         case user do
           %User{} ->
-            if Pbkdf2.verify_pass(password, user.password) do
-
+            if Argon2.verify_pass(password, user.password) do
               conn
-              |>put_status(:created)
-              |>put_session(:current_user_id, user.id)
-              |>render("acknowledge.json", %{
-                  message: "Logged In"
-                })
-
+              |> put_status(:created)
+              |> put_session(:current_user_id, user.id)
+              |> render("acknowledge.json", %{
+                message: "Logged In"
+              })
             else
-                render(conn, "errors.json", %{
-                  errors: Constants.invalid_credentials()
-                })
+              render(conn, "errors.json", %{
+                errors: Constants.invalid_credentials()
+              })
             end
 
           _ ->
@@ -67,13 +65,13 @@ defmodule PhoenixReactChatWeb.AuthController do
     end
   end
 
-
   defp dont_exploit_me(conn, _params) do
     if conn.assigns.user_signed_in? do
 
       send_resp(conn, 401, Constants.not_authorized())
 
-      conn |> halt()
+      conn
+      |> halt()
     else
       conn
     end
@@ -95,7 +93,8 @@ defmodule PhoenixReactChatWeb.AuthController do
     else
       send_resp(conn, 401, Constants.not_authenticated())
 
-      conn |> halt()
+      conn
+      |> halt()
     end
   end
 end
